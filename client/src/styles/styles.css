@@ -1,0 +1,94 @@
+.navbar {
+    display: inline-block;
+    border-bottom: 1px solid black;
+    width: 100%;
+    padding: 20px;
+}
+
+.navbar-item {
+    padding: 25px;
+}
+
+.active {
+    font-weight: bold;
+}
+
+.card {
+    margin: auto;
+    margin-top: 100px;
+    width: 30%;
+    border: 3px solid black;
+    padding: 10px;
+    text-align: center;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    border-top: 1px solid black;
+    text-align: center;
+}
+
+.flex {
+    display: flex;
+}
+
+.sidebar {
+    margin-top: 60px;
+    height: 100%; /* Full-height: remove this if you want "auto" height */
+    width: 160px; /* Set the width of the sidebar */
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 0;
+    border-right: 1px solid black;
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 20px;
+}
+
+.sidebar > a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+}
+
+.sidebar a:hover {
+    color: #000;
+}
+
+.content {
+    margin-left: 160px;
+}
+
+.uploader {
+    border-bottom: 1px solid black;
+    height: 100px;
+}
+
+.file {
+    border: 2px solid black;
+    margin: 5px;
+}
+
+.file > * {
+    width: 13%;
+    padding: 5px 20px 5px;
+    display: inline-block;
+}
+
+.file-columns > * {
+    width: 13%;
+    padding: 5px 20px 5px;
+    display: inline-block;
+}
+
+.avatar {
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
