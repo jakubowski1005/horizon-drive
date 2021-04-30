@@ -1,6 +1,6 @@
 #!/bin/bash
 git pull origin dev
-cd api-gateway
+cd api
 ./gradlew clean build -x test
 cd ..
 docker-compose build
