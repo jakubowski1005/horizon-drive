@@ -1,5 +1,5 @@
 #!/bin/bash
-git pull
+git pull origin dev
 cd api-gateway
 ./gradlew clean build -x test
 cd ..
