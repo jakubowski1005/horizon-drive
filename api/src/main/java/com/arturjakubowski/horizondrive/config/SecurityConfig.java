@@ -84,18 +84,4 @@ public class SecurityConfig{
             return chain.filter(ctx);
         };
     }
-
-//    @Bean
-//    CorsWebFilter corsWebFilter() {
-//        CorsConfiguration corsConfig = new CorsConfiguration();
-//        corsConfig.setAllowedOrigins(Collections.singletonList("http://localhost:3000/"));
-//        corsConfig.setMaxAge(8000L);
-//        corsConfig.addAllowedMethod("PUT");
-//        corsConfig.addAllowedHeader("Baeldung-Allowed");
-//
-//        var source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", corsConfig);
-//
-//        return new CorsWebFilter(source);
-//    }
 }

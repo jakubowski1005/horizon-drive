@@ -1,7 +1,5 @@
 package com.arturjakubowski.horizondrive.model;
 
-
-import com.arturjakubowski.horizondrive.constants.FolderColor;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,10 +16,9 @@ import java.util.Date;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FolderMtd {
-
     @Id String id;
     String folderName;
-    FolderColor color;
+    String color;
     String owner;
     Date createdAt;
 }

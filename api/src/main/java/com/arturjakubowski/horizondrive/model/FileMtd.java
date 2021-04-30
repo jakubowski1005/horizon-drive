@@ -17,15 +17,14 @@ import java.util.Set;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FileMtd {
-
     @Id String id;
     String filename;
     String filetype;
     Double filesize;
     String downloadUrl;
     String relativePath;
-    String folder;
     String owner;
+    Set<String> folders;
     Set<String> sharedFor;
     Date createdAt;
 }

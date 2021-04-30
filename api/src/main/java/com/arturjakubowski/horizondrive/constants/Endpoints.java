@@ -7,5 +7,15 @@ public class Endpoints {
     public static final String RESET_PASSWORD = "/users/password";
     public static final String DELETE_ACCOUNT = "/users";
 
-    public static final String[] UNAUTHENTICATED_ROUTES = new String[] { REGISTER, LOGIN , "/upload", "/connection"};
+    public static final String GET_FOLDERS = "/folders";
+    public static final String CREATE_FOLDER = "/folders";
+    public static final String UPDATE_FOLDER = "/folders/{id}";
+    public static final String DELETE_FOLDER = "/folders/{id}";
+
+    public static final String GET_FILES = "/files";
+    public static final String UPLOAD_FILE = "/files";
+    public static final String UPDATE_FILE = "/files/{id}";
+    public static final String DELETE_FILE = "/files/{id}";
+
+    public static final String[] UNAUTHENTICATED_ROUTES = new String[] { REGISTER, LOGIN };
 }

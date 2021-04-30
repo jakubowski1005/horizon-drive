@@ -21,7 +21,7 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserRouter {
 
-    UserHandler userHandler;
+    //UserHandler userHandler;
 
     @Bean
     public RouterFunction<ServerResponse> userRoute() {
