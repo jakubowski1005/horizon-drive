@@ -1,6 +1,7 @@
 #!/bin/bash
 git pull origin dev
 cd api
+gradle wrapper
 ./gradlew clean build -x test
 cd ..
 docker-compose build
