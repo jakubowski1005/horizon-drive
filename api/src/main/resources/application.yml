@@ -6,9 +6,9 @@ spring:
     name: horizon-drive
   data:
     mongodb:
-      host: dev
+      host: devdb
       port: 27017
-      database: dev
+      database: devdb
 
 token:
   key: "secret33333333333333secret33333333333333"
