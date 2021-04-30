@@ -10,7 +10,7 @@ services:
     links:
       - devdb
   
-    devdb:
+  devdb:
     image: mongo:latest
     container_name: devdb
     restart: always
@@ -20,4 +20,4 @@ services:
       - 27017:27017
 
 volumes:
-  authdb:
+  devdb:
