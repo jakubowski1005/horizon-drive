@@ -30,7 +30,6 @@ public class SecurityContextRepository implements ServerSecurityContextRepositor
         String authToken = null;
 
         if (authHeader != null && authHeader.startsWith(Global.TOKEN_PREFIX)) {
-            //authToken = authHeader.replace(Security.TOKEN_PREFIX, "");
             authToken = authHeader.substring(7);
         }
 

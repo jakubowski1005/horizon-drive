@@ -18,7 +18,12 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.Set;
 
@@ -52,6 +57,7 @@ public class AuthHandlerImpl implements AuthHandler{
                 .flatMap(registerRequest -> userRepository.findByUsername(registerRequest.getUsername())
                         .flatMap(dbUser -> ServerResponse.badRequest().body(BodyInserters.fromValue(Global.USERNAME_EXIST)))
                         .switchIfEmpty(userRepository.save(buildUserFromRequest(registerRequest))
+                                .flatMap(this::createFolder)
                                 .flatMap(savedUser -> ServerResponse.ok()
                                         .contentType(APPLICATION_JSON)
                                         .body(BodyInserters.fromValue(savedUser)))));
@@ -81,5 +87,18 @@ public class AuthHandlerImpl implements AuthHandler{
                 .createdAt(new Date())
                 .email(registerRequest.getEmail())
                 .build();
+    }
+
+    private Mono<?> createFolder(User user) {
+        String basePath = "/Users/arturjakubowski/Documents/repos/horizon-drive/api/src/main/resources/files/";
+        Path path = Paths.get(basePath + user.getUsername());
+        System.out.println(path);
+        return Mono.fromRunnable(() -> {
+            try {
+                Files.createDirectory(path);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).publishOn(Schedulers.boundedElastic());
     }
 }

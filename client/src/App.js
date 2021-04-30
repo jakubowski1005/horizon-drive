@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { Login } from './components/auth/Login';
+import { Register } from './components/auth/Register';
+import { RemindPassword } from './components/auth/RemindPassword';
+import { HomePage } from './components/global/HomePage';
+import { Error } from './components/global/Error';
+import { Terms } from './components/auth/Terms';
+import { HorizonDrive } from './components/app/HorizonDrive';
+import { Header } from './components/global/Header';
+import { Footer } from './components/global/Footer';
+import { Logout } from './components/auth/Logout';
 
-function App() {
+export const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <Header/>
+      <BrowserRouter>
+        <Switch>
+          <Route path="/" exact component={HomePage} />
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
+          <Route path="/remindPassword" component={RemindPassword} />
+          <Route path="/terms" component={Terms} />
+          <Route path="/logout" component={Logout} />
+          <Route path="/app" component={HorizonDrive} />
+          <Route path="/" component={Error} />
+        </Switch>
+      </BrowserRouter>
+      <Footer/>
+    </>
+  )
 }
 
-export default App;
+//export default App;
