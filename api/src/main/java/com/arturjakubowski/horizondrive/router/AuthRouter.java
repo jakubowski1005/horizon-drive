@@ -13,6 +13,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import static com.arturjakubowski.horizondrive.constants.Endpoints.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.web.reactive.function.server.RequestPredicates.POST;
+import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
 import static org.springframework.web.reactive.function.server.RequestPredicates.accept;
 
 @Configuration
@@ -26,6 +27,7 @@ public class AuthRouter {
     public RouterFunction<ServerResponse> authRoute() {
         return RouterFunctions
                 .route(POST(LOGIN).and(accept(APPLICATION_JSON)), authHandler::login)
+                .andRoute(GET("/test").and(accept(APPLICATION_JSON)), authHandler::test)
                 .andRoute(POST(REGISTER).and(accept(APPLICATION_JSON)), authHandler::register);
     }
 }

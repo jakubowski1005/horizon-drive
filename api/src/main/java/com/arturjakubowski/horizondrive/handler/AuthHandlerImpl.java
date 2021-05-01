@@ -39,6 +39,10 @@ public class AuthHandlerImpl implements AuthHandler{
     PasswordEncoder passwordEncoder;
     JwtProvider tokenProvider;
 
+    public Mono<ServerResponse> login(ServerRequest request) {
+        return ServerResponse.ok().body(BodyInserters.fromValue('Test connection - success')).build();
+    }
+
     @Override
     public Mono<ServerResponse> login(ServerRequest request) {
         return request.bodyToMono(LoginRequest.class)
