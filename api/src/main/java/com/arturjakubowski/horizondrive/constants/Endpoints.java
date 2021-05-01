@@ -17,5 +17,5 @@ public class Endpoints {
     public static final String UPDATE_FILE = "/files/{id}";
     public static final String DELETE_FILE = "/files/{id}";
 
-    public static final String[] UNAUTHENTICATED_ROUTES = new String[] { REGISTER, LOGIN };
+    public static final String[] UNAUTHENTICATED_ROUTES = new String[] { REGISTER, LOGIN, "/test" };
 }
