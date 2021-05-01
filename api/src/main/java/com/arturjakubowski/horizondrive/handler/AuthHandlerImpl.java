@@ -40,7 +40,7 @@ public class AuthHandlerImpl implements AuthHandler{
     JwtProvider tokenProvider;
 
     public Mono<ServerResponse> login(ServerRequest request) {
-        return ServerResponse.ok().body(BodyInserters.fromValue('Test connection - success')).build();
+        return ServerResponse.ok().body(BodyInserters.fromValue("Test connection - success"));
     }
 
     @Override
