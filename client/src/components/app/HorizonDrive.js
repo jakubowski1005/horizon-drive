@@ -13,26 +13,32 @@ export const HorizonDrive = () => {
     const [filesToShow, setFilesToShow] = useState([]);
     const [activeOption, setActiveOption] = useState('all');
 
-    useEffect(() => {
-        const allFiles = getFiles();
-        setFiles(allFiles)
-        setFilesToShow(allFiles);
-        setFolders([
+    useEffect(async () => {
+        setLoading(true);
+        let mounted = true;
+
+        const constFolders = [
             {name: 'all', color: 'black'},
-            {name: 'shared', color: 'grey'},
-            ...getFolders()
-        ])
+            {name: 'shared', color: 'grey'}
+        ];
+
+        getFolders()
+        .then(res => res.json())
+        .then(data => mounted ? setFolders([...constFolders, ...data]) : null)
+        .then(() => console.log('folders'))
+        .then(() => console.log(folders))
+        .catch(err => console.error(err))
+
+        getFiles()
+        .then(res => res.json())
+        .then(data => mounted ? setFiles(data) : null)
+        .then(() => console.log('files'))
+        .then(() => console.log(files))
+        .catch(err => console.error(err))
+
         setLoading(false);
-        // getFolders()
-        // .then(res => res.json())
-        // .then(data => setFolders(data))
-        // .then(() => {
-        //     getFiles()
-        //     .then(res => res.json())
-        //     .then(data => setFiles(data))
-        //     .catch(err => console.error(err))
-        // })
-        // .catch(err => console.error(err))
+        return () => mounted = false;
+        
     }, [])
 
     const select = (option) => {

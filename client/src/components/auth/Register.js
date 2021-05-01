@@ -13,6 +13,7 @@ export const Register = () => {
 
     const signUp = () => {
         if (areCredentialsValid && checkTerms) {
+            console.log(login, email, password);
             register(login, email, password)
             .then(res => res.json())
             .then(res => {
@@ -21,7 +22,7 @@ export const Register = () => {
                 console.error(err);
         })
         }
-        console.log('diffrent passwords');
+        //console.log('diffrent passwords');
     }
 
     const areCredentialsValid = () => {
