@@ -6,5 +6,6 @@ import reactor.core.publisher.Mono;
 
 public interface AuthHandler {
     Mono<ServerResponse> register(ServerRequest request);
+    Mono<ServerResponse> test(ServerRequest request);
     Mono<ServerResponse> login(ServerRequest request);
 }
