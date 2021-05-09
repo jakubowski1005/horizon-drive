@@ -18,17 +18,21 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.web.cors.reactive.CorsUtils;
+import org.springframework.web.reactive.config.CorsRegistry;
+import org.springframework.web.reactive.config.EnableWebFlux;
+import org.springframework.web.reactive.config.WebFluxConfigurer;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 
 @Configuration
+@EnableWebFlux
 @EnableWebFluxSecurity
 @EnableReactiveMethodSecurity
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class SecurityConfig{
+public class SecurityConfig implements WebFluxConfigurer {
 
     AuthenticationManager authenticationManager;
     SecurityContextRepository securityContextRepository;
@@ -83,5 +87,16 @@ public class SecurityConfig{
             }
             return chain.filter(ctx);
         };
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        //WebFluxConfigurer.super.addCorsMappings(registry);
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:3000/", "http://192.168.1.23:3000/")
+                .allowedMethods("*")
+                .allowedHeaders("*")
+                .allowCredentials(true)
+                .maxAge(3600);
     }
 }

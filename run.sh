@@ -1,4 +1,5 @@
 #!/bin/bash
+docker system prune -a
 git pull origin dev
 cd api
 gradle wrapper
