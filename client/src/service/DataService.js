@@ -5,9 +5,12 @@ import { HTTP } from '../constants/http';
 
 
 export const getFolders = () => {
-    const res = new Response(JSON.stringify(folders));
-    return Promise.resolve(res);
     const url = URL.BASE + URL.FOLDERS;
+    console.log(url);
+    console.log({
+        method: HTTP.GET,
+        headers: getHeader()
+    })
     return fetch(url, {
         method: HTTP.GET,
         headers: getHeader()
@@ -16,14 +19,13 @@ export const getFolders = () => {
 
 export const createFolder = (name, color) => {
     const url = URL.BASE + URL.FOLDERS;
-    const body = {
+    const body = JSON.stringify({
         name: name,
         color: color
-    }
+    });
     console.log('calling api: ' + url);
     console.log('with header:\n' + getHeader());
     console.log('with data:\n' + body);
-    return;
 
     return fetch(url, {
         method: HTTP.POST, 
@@ -37,12 +39,13 @@ export const updateFolder = (id, folder) => {
     console.log('calling api: ' + url);
     console.log('with header:\n' + getHeader());
     console.log('with data:\n' + folder);
-    return;
+    //return;
+    const body = JSON.stringify(folder)
 
     return fetch(url, {
         method: HTTP.PUT,
         headers: getHeader(),
-        body: folder
+        body: body
     });
 }
 
@@ -50,7 +53,7 @@ export const deleteFolder = (id) => {
     const url = URL.BASE + URL.FOLDERS + id;
     console.log('calling api: ' + url);
     console.log('with header:\n' + getHeader());
-    return;
+    //return;
 
     return fetch(url, {
         method: HTTP.DELETE,
@@ -59,8 +62,6 @@ export const deleteFolder = (id) => {
 }
 
 export const getFiles = () => {
-    const res = new Response(JSON.stringify(files));
-    return Promise.resolve(res);
     const url = URL.BASE + URL.FILES;
     return fetch(url, {
         method: HTTP.GET,
@@ -70,14 +71,20 @@ export const getFiles = () => {
 
 export const uploadFile = (file) => {
     const url = URL.BASE + URL.FILES;
+
+
+    const headers = {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': getToken()
+    }
+
     console.log('calling api: ' + url);
-    console.log('with header:\n' + getHeader());
+    console.log('with header:\n' + headers);
     console.log('with data:\n' + file);
-    return;
 
     return fetch(url, {
         method: HTTP.POST,
-        headers: getHeader(),
+        headers: headers,
         body: file
     });
 }
@@ -87,7 +94,7 @@ export const updateFile = (id, fileData) => {
     console.log('calling api: ' + url);
     console.log('with header:\n' + getHeader());
     console.log('with data:\n' + fileData);
-    return;
+    //return;
 
     return fetch(url, {
         method: HTTP.PUT,
@@ -101,7 +108,7 @@ export const deleteFile = (id) => {
 
     console.log('calling api: ' + url);
     console.log('with header:\n' + getHeader());
-    return;
+    //return;
 
     return fetch(url, {
         method: HTTP.DELETE,

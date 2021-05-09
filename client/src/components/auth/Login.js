@@ -10,17 +10,16 @@ export const Login = () => {
     const [message, setMessage] = useState('');
 
     const signIn = () => {
-        // sessionStorage.setItem('token', 'token')
-        // window.location.href = '/app'
-        // return;
         login(username, password)
-            .then(res => res.json())
             .then(res => {
                 console.log(res)
-                const token = res.type + res.token;
-                console.log(token)
-                //sessionStorage.setItem('token', token)
-                //window.location.href = '/app'
+                if (res.status === 200) {
+                    const token = res.type + res.token;
+                    sessionStorage.setItem('token', token)
+                    //window.location.href = '/app'
+                } else {
+                    setMessage('Something went wrong');
+                }
             }).catch(err => {
                 console.error(err);
         })
@@ -33,7 +32,7 @@ export const Login = () => {
     return (
         <div className="card">
             <h3>Login Page</h3>
-            <p style={{color: 'red'}}>{message}</p><br/>
+            {message && <><p style={{color: 'red'}}>{message}</p><br/></>}
             Username: <input type="text" onChange={(event => setUsername(event.target.value))}/><br/>
             Password: <input type="password" onChange={(event => setPassword(event.target.value))}/><br/>
             <button onClick={signIn}>Sign In</button>

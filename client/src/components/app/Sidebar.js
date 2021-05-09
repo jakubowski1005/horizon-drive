@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { createFolder, updateFolder, deleteFolder } from '../../service/DataService';
 import { Folder } from './Folder'
+import avatar from '../../styles/avatar.png'
 
 export const Sidebar = ({folders, select}) => {
 
@@ -50,7 +51,7 @@ export const Sidebar = ({folders, select}) => {
     return (
         <>
         <div className="sidebar">
-            <img src="src/styles/avatar.png" alt="Avatar" className="avatar"/>
+            <img src={avatar} alt="Avatar" className="avatar"/>
             <p>Artur Jakubowski</p>
             <hr/>
             <button onClick={openModal}>+ Add folder</button>

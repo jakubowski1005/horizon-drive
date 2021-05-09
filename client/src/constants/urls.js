@@ -4,7 +4,7 @@ export const URL = {
     LOGIN: "/auth/login",
     REMIND_PASSWORD: null,
     ACTIVATE_ACCOUNT: null,
-    FOLDERS: "/folders/",
-    FILES:  "/files/",
+    FOLDERS: "/folders",
+    FILES:  "/files",
     USERS: "/users/"
 }
