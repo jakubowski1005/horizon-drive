@@ -5,28 +5,25 @@ import { getFolders, getFiles } from '../../service/DataService'
 export const FileTable = ({files, sortFiles}) => {
 
     const [loading, setLoading] = useState(false);
-    // const [folders, setFolders] = useState([]);
-    // const [files, setFiles] = useState([]);
+    //const [folders, setFolders] = useState([]);
+    //const [files, setFiles] = useState([]);
 
     // useEffect(() => {
-    //     setFolders(getFolders())
-    //     setFiles(getFiles())
-    //     // getFolders()
-    //     // .then(res => res.json())
-    //     // .then(data => setFolders(data))
-    //     // .then(() => {
-    //     //     getFiles()
-    //     //     .then(res => res.json())
-    //     //     .then(data => setFiles(data))
-    //     //     .catch(err => console.error(err))
-    //     // })
-    //     // .catch(err => console.error(err))
+    //     getFolders()
+    //     .then(res => res.json())
+    //     .then(data => setFolders(data))
+    //     .then(() => {
+    //         getFiles()
+    //         .then(res => res.json())
+    //         .then(data => setFiles(data))
+    //         .catch(err => console.error(err))
+    //     })
+    //     .catch(err => console.error(err))
     // }, [])
 
-    useEffect(() => {
-        files.map(file => console.log(file));
-        console.log(files);
-    }, [])
+    // useEffect(() => {
+    //     console.log({files, sortFiles});
+    // })
 
     const sort = (column, order) => {
         console.log(column, order);

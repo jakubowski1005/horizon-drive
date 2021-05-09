@@ -14,14 +14,18 @@ export const Register = () => {
     const signUp = () => {
         if (areCredentialsValid && checkTerms) {
             register(login, email, password)
-            .then(res => res.json())
             .then(res => {
                 console.log(res)
+                if (res.status === 200) {
+                    setMessage('Redirecting...');
+                    setTimeout(() => window.location.href = '/login', 1000);
+                } else {
+                    setMessage('Something went wrong');
+                }
             }).catch(err => {
                 console.error(err);
         })
         }
-        console.log('diffrent passwords');
     }
 
     const areCredentialsValid = () => {
