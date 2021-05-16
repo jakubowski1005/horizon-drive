@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyExtractors;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
@@ -37,6 +38,19 @@ public class FileHandlerImpl implements FileHandler {
                 .map(Principal::getName)
                 .flatMapMany(fileMtdRepository::findByOwner);
         return ServerResponse.ok().body(data, FileMtd.class);
+    }
+
+    @Override
+    public Mono<ServerResponse> findShared(ServerRequest request) {
+        var data = request.principal()
+                .map(Principal::getName)
+                .flatMapMany(this::findSharedByUser);
+        return ServerResponse.ok().body(data, FileMtd.class);
+    }
+
+    private Flux<FileMtd> findSharedByUser(String username) {
+        return fileMtdRepository.findAll()
+                .filter(file -> file.getSharedFor().contains(username));
     }
 
     @Override

@@ -6,6 +6,7 @@ import reactor.core.publisher.Mono;
 
 public interface FileHandler {
     Mono<ServerResponse> findAll(ServerRequest request);
+    Mono<ServerResponse> findShared(ServerRequest request);
     Mono<ServerResponse> upload(ServerRequest request);
     Mono<ServerResponse> update(ServerRequest request);
     Mono<ServerResponse> delete(ServerRequest request);

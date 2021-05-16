@@ -74,12 +74,15 @@ public class AuthHandlerImpl implements AuthHandler{
 
     private Mono<ServerResponse> checkPassword(LoginRequest request, User user) {
         if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            return ServerResponse.ok()
+            var res = ServerResponse.ok()
                     .contentType(APPLICATION_JSON)
                     .body(BodyInserters.fromValue(
                             new LoginResponse(Global.TOKEN_PREFIX, tokenProvider.generateToken(user)))
                     );
+            log.debug(res.toString());
+            return res;
         }
+        System.out.println();
         return ServerResponse.badRequest().body(BodyInserters.fromValue(Global.PASSWORD_NOT_FOUND));
     }
 
