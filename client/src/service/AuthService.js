@@ -24,15 +24,6 @@ export const register = (username, email, password) => {
         password: password
     });
 
-    //const bodyJson = JSON.stringify(body);
-
-    console.log('calling api: ' + url);
-    console.log('with header:');
-    console.log(headers);
-    console.log('with data:');
-    console.log(body);
-    //console.log(bodyJson);
-
     return fetch(url, {
         method: HTTP.POST, 
         headers: headers, 
@@ -41,7 +32,7 @@ export const register = (username, email, password) => {
 }
 
 export const remindPassword = (email) => {
-    console.log('remindPassword')
+    console.log('remindPassword: ' + email);
 }
 
 export const logout = () => {

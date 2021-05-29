@@ -1,73 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import { createFolder, updateFolder, deleteFolder } from '../../service/DataService';
+import React, { useState } from 'react';
 import { Folder } from './Folder'
-import avatar from '../../styles/avatar.png'
+import { FolderModal } from './FolderModal';
 
-export const Sidebar = ({folders, select}) => {
-
-    const [folderColor, setFolderColor] = useState('');
-    const [folderName, setFolderName] = useState('');
+export const Sidebar = ({folders, select, username}) => {
     const [modalOpen, setModalOpen] = useState(false);
 
     const selectFolder = (option) => {
+        if (option === 'Add new') {
+            setModalOpen(true);
+            return;
+        }
         select(option);
-    }
-
-    const addFolder = () => {
-        console.log('add folder');
-        return;
-        createFolder(folderName, folderColor)
-        .then(res => {
-            console.log(res);
-        }).catch(err => console.error(err))
-    }
-
-    const updateFolder = () => {
-        console.log('update folder');
-        return;
-        updateFolder(folderName, folderColor)
-        .then(res => {
-            console.log(res);
-        }).catch(err => console.error(err))
-    }
-
-    const deleteFolder = () => {
-        console.log('delete folder');
-        return;
-        deleteFolder(folderName, folderColor)
-        .then(res => {
-            console.log(res);
-        }).catch(err => console.error(err))
-    }
-
-    const openModal = () => {
-        setModalOpen(true);
-    }
-
-    const closeModal = () => {
-        setModalOpen(false);
     }
 
     return (
         <>
         <div className="sidebar">
-            <img src={avatar} alt="Avatar" className="avatar"/>
-            <p>Artur Jakubowski</p>
+            <p>{username}</p>
             <hr/>
-            <button onClick={openModal}>+ Add folder</button>
-            {folders.map(folder => <Folder key={folder.name} folder={folder} onClick={() => selectFolder(folder.name)} />)}
-            <hr/>
-            <div onClick={() => selectFolder('settings')}>Settings</div>
+            {folders.map(folder => 
+            <Folder 
+                key={folder.rowId} 
+                folder={folder} 
+                onClick={() => selectFolder(folder.folderName)} />)}
         </div>
-        {modalOpen && <div className="modal" id="createFolderModal">
-            <div className="modal-content">
-                <p>Select folder name:</p>
-                <p>Select folder color:</p>
-                <button onClick={addFolder}>Add</button>
-                <button onClick={closeModal}>Close</button>
-            </div>
-        </div>
-        }
+        {modalOpen && <FolderModal creation closeModal={() => setModalOpen(false)} />}
         </>
     )
 }

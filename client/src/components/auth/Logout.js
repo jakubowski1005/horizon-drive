@@ -24,6 +24,8 @@ export const Logout = () => {
     }, [])
 
     return (
-        <h2>Redirect to home page in {timer}</h2>
+        <div className="card">
+            <h2>Redirect to home page in {timer}</h2>
+        </div>
     )
 }

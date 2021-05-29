@@ -9,6 +9,8 @@ import { HorizonDrive } from './components/app/HorizonDrive';
 import { Header } from './components/global/Header';
 import { Footer } from './components/global/Footer';
 import { Logout } from './components/auth/Logout';
+import { AuthRoute } from './components/auth/AuthRoute';
+import { Settings } from './components/app/Settings';
 
 export const App = () => {
   return (
@@ -22,7 +24,8 @@ export const App = () => {
           <Route path="/remindPassword" component={RemindPassword} />
           <Route path="/terms" component={Terms} />
           <Route path="/logout" component={Logout} />
-          <Route path="/app" component={HorizonDrive} />
+          <AuthRoute path="/app" component={HorizonDrive} />
+          <AuthRoute path="/settings" component={Settings} />
           <Route path="/" component={Error} />
         </Switch>
       </BrowserRouter>

@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { uploadFile } from '../../service/DataService'
 
 export const Uploader = () => {
 
-    const [uploadedFiles, setUploadedFiles] = useState([]);
-
-    const onFilesUpload = () => {
-        uploadedFiles.forEach(file => {
+    const onFileChange = (event) => {
+        Array.from(event.target.files).forEach(file => {
             const body = new FormData();
             body.append("filename", file.name)
             body.append("file", file)
@@ -17,14 +15,7 @@ export const Uploader = () => {
             })
     }
 
-    const onFileChange = (event) => {
-        setUploadedFiles(event.target.files);
-    }
-
     return (
-        <div className="uploader">
-            <input type="file" onChange={onFileChange} /><br/>
-            <button onClick={onFilesUpload}>Upload</button>
-        </div>
+        <input className="file-input" type="file" onChange={onFileChange}/>
     )
 }

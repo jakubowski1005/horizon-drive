@@ -3,87 +3,137 @@ import { getFolders, getFiles } from '../../service/DataService';
 import { FileTable } from './FileTable';
 import { Sidebar } from './Sidebar';
 import { Uploader } from './Uploader';
-import { Settings } from './Settings';
+import { FolderLabel } from './FolderLabel';
+import { FreeSpace } from './FreeSpace';
+
+const staticFolders = [
+    {id: 0, rowId: 1, folderName: 'Add new', color: '#0094FF', icon: 'create_new_folder'},
+    {id: 1, rowId: 2, folderName: 'All', color: 'black', icon: 'folder_special'},
+    {id: 2, rowId: 3, folderName: 'Shared', color: 'grey', icon: 'folder_shared'}
+];
 
 export const HorizonDrive = () => {
-
-    const [loading, setLoading] = useState(true);
-    const [folders, setFolders] = useState([]);
+    const [foldersLoading, setFoldersLoading] = useState(true);
+    const [filesLoading, setFilesLoading] = useState(true);
+    const [foldersToShow, setFoldersToShow] = useState([]);
     const [files, setFiles] = useState([]);
+    const [userInfo, setUserInfo] = useState([]);
+    const [userInfoLoading, setUserInfoLoading] = useState(true);
     const [filesToShow, setFilesToShow] = useState([]);
-    const [activeOption, setActiveOption] = useState('all');
+    const [activeOption, setActiveOption] = useState('All');
+    const [activeFolder, setActiveFolder] = useState(staticFolders[1]);
 
-    useEffect(async () => {
-        setLoading(true);
-        let mounted = true;
-
-        const constFolders = [
-            {name: 'all', color: 'black'},
-            {name: 'shared', color: 'grey'}
-        ];
-
-        getFolders()
-        .then(res => res.json())
-        .then(data => mounted ? setFolders([...constFolders, ...data]) : null)
-        .then(() => console.log('folders'))
-        .then(() => console.log(folders))
-        .catch(err => console.error(err))
-
-        getFiles()
-        .then(res => res.json())
-        .then(data => mounted ? setFiles(data) : null)
-        .then(() => console.log('files'))
-        .then(() => console.log(files))
-        .catch(err => console.error(err))
-
-        setLoading(false);
-        return () => mounted = false;
-        
+    useEffect(() => {
+        // const callout = async () => {
+        //     const mockData = {username: 'root', freeSpace: 2 * 1000 * 1000 * 1000 * 8};
+        //     const response = mockData;
+        //     setUserInfo(response);
+        //     setUserInfoLoading(false);
+        // }
+        // callout();
+            const mockData = {username: 'root', freeSpace: 2 * 1000 * 1000 * 1000 * 8};
+            const response = mockData;
+            setUserInfo(response);
+            setUserInfoLoading(false);
     }, [])
 
-    const select = (option) => {
-        setActiveOption(option);
-        if (option === 'settings') {
-            return;
+    useEffect(() => {
+        const callout = async () => {
+            const response = await getFolders();
+            const folders = await response.json();
+            getFoldersToShow(folders);
+            setFoldersLoading(false)
         }
+        callout();
+    }, [])
 
-        if (option === 'all') {
-            setFilesToShow(files);
-            return;
+    const getFoldersToShow = (folders) => {
+        let index = 4;
+        const apiFolders = folders.map(folder => ({
+            rowId: index++,
+            icon: 'folder',
+            ...folder
+        }))
+        
+        setFoldersToShow([...staticFolders, ...apiFolders]);
+        console.log(foldersToShow);
+    }
+
+    useEffect(() => {
+         const callout = async () => {
+            const response = await getFiles();
+            const files = await response.json();
+            setFiles(files);
+            getFilesToShow(files);
+            setFilesLoading(false)
         }
-        const folderId = folders.find(folder => folder.name === option).id;
-        const filteredFiles = files.filter(file => file.folder === folderId);
-        setFilesToShow(filteredFiles);
+        callout();
+    }, [])
+
+    const getFilesToShow = (files) => {
+        let index = 1;
+        const apiFiles = files.map(file => ({
+            rowId: index++,
+            date: new Date(file.createdAt),
+            ...file
+        }))
+        setFilesToShow(apiFiles);
+    }
+
+    const select = (option) => {
+        setActiveFolder(foldersToShow.find(folder => folder.folderName === option));
+        setActiveOption(option);
+        
+        switch (option) {
+            case 'All':
+                getFilesToShow(files);
+                return;
+            case 'Shared':
+                const sharedFiles = files.filter(file => file.sharedFor.includes('test'))
+                getFilesToShow(sharedFiles);
+                return;
+        }
+        const selectedFolder = foldersToShow.find(folder => folder.folderName === option);
+        setActiveFolder(selectedFolder);
+        const folderName = selectedFolder.folderName;
+        const filteredFiles = files.filter(file => file.folders.includes(folderName));
+        getFilesToShow(filteredFiles);
     }
 
     const sortFiles = (column, order) => {
-        let sortedFiles;
-        if (order === 'asc') {
-            console.log('asc')
-            console.log(column)
-            console.log(files[0][column])
-            sortedFiles = files.sort((a,b) => (a[column] > b[column] ? 1 : a[column] < b[column] ? -1 : 0));
-            console.log(sortedFiles)
-        } else {
-            sortedFiles = files.sort((a,b) => (a[column] < b[column] ? 1 : a[column] > b[column] ? -1 : 0));
-            console.log(sortedFiles)
-        }
-        setFilesToShow(sortedFiles);
+        const sortedFiles = (order === 'asc') ?
+         filesToShow.sort((a,b) => (a[column] > b[column] ? 1 : a[column] < b[column] ? -1 : 0)) :
+         filesToShow.sort((a,b) => (a[column] < b[column] ? 1 : a[column] > b[column] ? -1 : 0));
+        getFilesToShow(sortedFiles);
     }
     
     return (
         <>
-            {loading && 'Loading...'}
-            {!loading && <>
-            <Sidebar folders={folders} select={select}/>
-            <div className="content">
-                {activeOption === 'settings' && <Settings />}
-                {activeOption !== 'settings' && <>
-                    <Uploader />
-                    <FileTable key={"filetable"} files={filesToShow} sortFiles={sortFiles}/>
-                </>}
-            </div>
+            {(foldersLoading || filesLoading || userInfoLoading) ? 
+            <Loading /> : 
+            <>
+                <Sidebar folders={foldersToShow} username={userInfo.username} select={select}/>
+                <div className="content">
+                    <div className="flex">
+                        <div className="top-bar-item">
+                            <FolderLabel folderName={activeOption} folderColor={activeFolder.color} folderIcon={activeFolder.icon}/>
+                        </div>
+                        <div className="top-bar-item"><FreeSpace freeSpace={userInfo.freeSpace} /></div>
+                        <div className="top-bar-item"><Uploader /></div>
+                    </div>
+                        <FileTable 
+                        files={filesToShow}
+                        sortFiles={sortFiles}/>
+                </div>
             </>}
         </>
+    )
+}
+
+const Loading = () => {
+    return (
+        <div className="card">
+            <p>Loading...</p>
+        </div>
     )
 }

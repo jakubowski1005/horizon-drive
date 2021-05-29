@@ -3,7 +3,6 @@ import { NavLink, BrowserRouter } from 'react-router-dom';
 import '../../styles/styles.css'
 
 export const Header = () => {
-    
     const [auth, setAuth] = useState(false)
 
     useEffect(() => {
@@ -14,16 +13,17 @@ export const Header = () => {
 
     return (
         <div className="navbar">
-            <BrowserRouter forceRefresh>
-                <NavLink to="/" className="navbar-item" activeClassName="active" strict>Horizon Drive</NavLink>
-                {!auth && <>
+            <BrowserRouter forceRefresh className="navbar">
+                    <NavLink to="/" exact className="navbar-item" activeClassName="active" strict>HorizonDrive</NavLink>
+                {!auth && <div className="right">
                     <NavLink to="/login" className="navbar-item" activeClassName="active" strict>Sign In</NavLink>
                     <NavLink to="/register" className="navbar-item" activeClassName="active" strict>Sign Up</NavLink>
-                </>}
-                {auth && <>
+                </div>}
+                {auth && <div className="right">
                     <NavLink to="/app" className="navbar-item" activeClassName="active" strict>Drive</NavLink>
+                    <NavLink to="/settings" className="navbar-item" activeClassName="active" strict>Settings</NavLink>
                     <NavLink to="/logout" className="navbar-item" activeClassName="active" strict>Logout</NavLink>
-                </>}
+                </div>}
             </BrowserRouter>
         </div>
     )

@@ -1,20 +1,11 @@
-import React, { useState } from 'react';
-import { URL } from '../../constants/urls'
+import React from 'react';
 
 export const HomePage = () => {
-
-    const [status, setStatus] = useState('');
-
-    const testConnection = () => {
-        fetch(URL.BASE + "/test")
-        .then(res => res.status === 200 ? setStatus('Success') : setStatus('Failed'))
-        .catch(err => console.error(err))
-    }
     return (
         <div className="card">
-            <h1>Welcome in Horizon Drive</h1>
-            <button onClick={testConnection}>Test Connection</button>
-            {status && <p style={{color: status==='Success' ? 'green' : 'red'}}>{status}</p>}
+            <h1>Store, share and manage your files everytime from everywhere.</h1>
+            <h1>Up to 5GB free space.</h1>
+            <button className="btn" onClick={() => window.location.href="/register"}>Click here to start</button>
         </div>
     )
 }

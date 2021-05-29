@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React  from 'react';
+import MaterialIcon from 'material-icons-react';
 
 export const Folder = ({folder, onClick}) => {
-
-    useEffect(() => console.log(folder),[])
-
     return (
-        <div data-reactid={folder.name} className="folder" onClick={onClick}>
-            <p className={{color: folder.color}}>{folder.name}</p>
+        <div className="folder" onClick={onClick}>
+            <MaterialIcon icon={folder.icon} color={folder.color} size="medium"/>
+            <span>&nbsp;{folder.folderName}</span>
         </div>
     )
 }

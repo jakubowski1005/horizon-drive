@@ -12,16 +12,21 @@ export const Login = () => {
     const signIn = () => {
         login(username, password)
             .then(res => {
-                console.log(res)
                 if (res.status === 200) {
-                    const token = res.type + res.token;
-                    sessionStorage.setItem('token', token)
-                    //window.location.href = '/app'
+                    res.json()
+                        .then(body => {
+                            console.log(body)
+                            const token = body.type + body.token;
+                            sessionStorage.setItem('token', token)
+                            setMessage('Redirecting...');
+                            setTimeout(() => window.location.href = '/app', 1000)
+                        })
                 } else {
-                    setMessage('Something went wrong');
+                    setMessage('Wrong credentials');
                 }
             }).catch(err => {
                 console.error(err);
+                setMessage('Something went wrong');
         })
     }
 
@@ -31,13 +36,11 @@ export const Login = () => {
 
     return (
         <div className="card">
-            <h3>Login Page</h3>
             {message && <><p style={{color: 'red'}}>{message}</p><br/></>}
-            Username: <input type="text" onChange={(event => setUsername(event.target.value))}/><br/>
-            Password: <input type="password" onChange={(event => setPassword(event.target.value))}/><br/>
-            <button onClick={signIn}>Sign In</button>
-            <button onClick={checkToken}>Check token</button>
-            <button onClick={() => history.push('/remindPassword')}>Remind password</button>
+            <input type="text" placeholder="username" onChange={(event => setUsername(event.target.value))}/><br/>
+            <input type="password" placeholder="password" onChange={(event => setPassword(event.target.value))}/><br/>
+            <button className="btn-small" onClick={() => history.push('/remindPassword')}>Remind password</button><br/>
+            <button className="btn" onClick={signIn}>Sign In</button>
         </div>
     )
 }

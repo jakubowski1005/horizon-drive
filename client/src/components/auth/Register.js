@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { register } from '../../service/AuthService.js'
+import { validateCredentials } from '../../service/utils.js';
 
 export const Register = () => {
 
@@ -12,7 +13,13 @@ export const Register = () => {
     const [message, setMessage] = useState('');
 
     const signUp = () => {
-        if (areCredentialsValid && checkTerms) {
+        const validationResults = validateCredentials(login, email, password, passwordConfirmation, checkTerms);
+        if (!validationResults[0]) {
+            setMessage(validationResults[1]);
+            return;
+        }
+
+        if (validationResults[0]) {
             register(login, email, password)
             .then(res => {
                 console.log(res)
@@ -24,24 +31,21 @@ export const Register = () => {
                 }
             }).catch(err => {
                 console.error(err);
+                setMessage('Something went wrong');
         })
         }
     }
 
-    const areCredentialsValid = () => {
-        return password === passwordConfirmation;
-    }
-
     return (
         <div className="card">
-            <h3>Register Page</h3>
             <p style={{color: 'red'}}>{message}</p><br/>
-            Username: <input type="text" onChange={(event => setLogin(event.target.value))}/><br/>
-            Email: <input type="text" onChange={(event => setEmail(event.target.value))}/><br/>
-            Password: <input type="password" onChange={(event => setPassword(event.target.value))}/><br/>
-            Confirm password: <input type="password" onChange={(event => setPasswordConfirmation(event.target.value))}/><br/>
-            <input type="checkbox" onChange={(event => setCheckTerms(event.target.value))}/> <Link to="/terms">Terms</Link><br/>
-            <button onClick={signUp}>Sign Up</button>
+            <input type="text" placeholder="username" onChange={(event => setLogin(event.target.value))}/><br/>
+            <input type="text" placeholder="email" onChange={(event => setEmail(event.target.value))}/><br/>
+            <input type="password" placeholder="password" onChange={(event => setPassword(event.target.value))}/><br/>
+            <input type="password" placeholder="confirm password" onChange={(event => setPasswordConfirmation(event.target.value))}/><br/>
+            <input type="checkbox" onChange={(event => setCheckTerms(event.target.value))}/> 
+                I agree all statements in <Link as="span" to="/terms" className="checkbox">Terms of service</Link><br/>
+            <button className="btn" onClick={signUp}>Sign Up</button>
         </div>
     )
 }
