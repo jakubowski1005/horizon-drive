@@ -24,11 +24,14 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+    //implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+
     runtime group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.1'
     runtime group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.1'
     compile group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.1'
 
-    implementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
+    //implementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

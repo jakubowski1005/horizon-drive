@@ -4,11 +4,11 @@ server:
 spring:
   application:
     name: horizon-drive
-#  data:
-#    mongodb:
-#      host: devdb
-#      port: 27017
-#      database: devdb
+  data:
+    mongodb:
+      host: devdb
+      port: 27017
+      database: devdb
 
 token:
   key: "UBuIpl5UE1TY9z5Wl59Hu4TskYLleNcs"
