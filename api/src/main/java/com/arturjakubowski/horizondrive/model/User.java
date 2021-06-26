@@ -1,5 +1,6 @@
 package com.arturjakubowski.horizondrive.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,13 +19,12 @@ import java.util.Set;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class User {
-    @Id
-    String id;
-    @Indexed
-    String username;
+    @Id String id;
+    @Indexed String username;
     String email;
-    String password;
-    Set<String> roles;
+    @JsonIgnore String password;
+    @JsonIgnore Set<String> roles;
     Date createdAt;
-    Boolean isActive;
+    @JsonIgnore Boolean isActive;
+    Double freeSpace;
 }

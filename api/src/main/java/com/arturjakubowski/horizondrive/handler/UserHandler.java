@@ -6,6 +6,7 @@ import reactor.core.publisher.Mono;
 
 public interface UserHandler {
     Mono<ServerResponse> getUsernames(ServerRequest request);
+    Mono<ServerResponse> getUserInfo(ServerRequest request);
     Mono<ServerResponse> resetPassword(ServerRequest request);
     Mono<ServerResponse> activateAccount(ServerRequest request);
     Mono<ServerResponse> deleteAccount(ServerRequest request);

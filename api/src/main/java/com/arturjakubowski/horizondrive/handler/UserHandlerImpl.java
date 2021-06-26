@@ -1,24 +1,25 @@
 package com.arturjakubowski.horizondrive.handler;
 
-import com.arturjakubowski.horizondrive.model.FileMtd;
 import com.arturjakubowski.horizondrive.model.User;
+import com.arturjakubowski.horizondrive.payloads.UserInfoResponse;
 import com.arturjakubowski.horizondrive.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
-import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -29,8 +30,21 @@ public class UserHandlerImpl implements UserHandler {
 
     @Override
     public Mono<ServerResponse> getUsernames(ServerRequest request) {
-        var usernames = userRepository.findAll().map(User::getUsername);
-        return ServerResponse.ok().body(usernames, String.class);
+        return userRepository.findAll()
+                .collectList()
+                .map(users -> users.stream().map(User::getUsername).collect(Collectors.toList()))
+                .flatMap(usernames -> ServerResponse.ok().body(BodyInserters.fromValue(usernames)));
+    }
+
+    @Override
+    public Mono<ServerResponse> getUserInfo(ServerRequest request) {
+        return request.principal()
+                .map(Principal::getName)
+                .flatMap(userRepository::findByUsername)
+                .flatMap(user -> {
+                    var userInfo = new UserInfoResponse(user.getId(), user.getUsername(), user.getFreeSpace());
+                    return ServerResponse.ok().body(BodyInserters.fromValue(userInfo));
+                });
     }
 
     @Override
@@ -49,12 +63,16 @@ public class UserHandlerImpl implements UserHandler {
                 .map(Principal::getName)
                 .doOnNext(user -> {
                     var dir = Paths.get("src/main/resources/files/" + user);
-                    Files.walk(dir)
-                            .sorted(Comparator.reverseOrder())
-                            .map(Path::toFile)
-                            .forEach(File::delete);
+                    try {
+                        Files.walk(dir)
+                                .sorted(Comparator.reverseOrder())
+                                .map(Path::toFile)
+                                .forEach(File::delete);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 })
-                .flatMap(userRepository::deleteByUsername)
-                .map(ServerResponse::noContent);
+                .flatMap(user -> userRepository.deleteByUsername(user)
+                    .flatMap(res -> ServerResponse.noContent().build()));
     }
 }

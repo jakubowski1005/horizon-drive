@@ -94,6 +94,7 @@ public class AuthHandlerImpl implements AuthHandler{
                 .isActive(true)
                 .createdAt(new Date())
                 .email(registerRequest.getEmail())
+                .freeSpace(5.0 * 1024 * 1024)
                 .build();
     }
 

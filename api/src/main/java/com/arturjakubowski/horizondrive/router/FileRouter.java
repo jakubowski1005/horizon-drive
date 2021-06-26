@@ -25,7 +25,8 @@ public class FileRouter {
     RouterFunction<ServerResponse> fileRoute() {
         return RouterFunctions
                 .route(GET(Endpoints.GET_FILES).and(accept(APPLICATION_JSON)), fileHandler::findAll)
-                .andRoute(POST(Endpoints.GET_FILES).and(accept(APPLICATION_JSON)), fileHandler::findShared)
+                .andRoute(GET(Endpoints.GET_SHARED).and(accept(APPLICATION_JSON)), fileHandler::findShared)
+                .andRoute(GET(Endpoints.DOWNLOAD_FILE).and(accept(APPLICATION_JSON)), fileHandler::download)
                 .andRoute(POST(Endpoints.UPLOAD_FILE).and(accept(MULTIPART_FORM_DATA)), fileHandler::upload)
                 .andRoute(PUT(Endpoints.UPDATE_FILE).and(accept(APPLICATION_JSON)), fileHandler::update)
                 .andRoute(DELETE(Endpoints.DELETE_FILE).and(accept(APPLICATION_JSON)), fileHandler::delete);

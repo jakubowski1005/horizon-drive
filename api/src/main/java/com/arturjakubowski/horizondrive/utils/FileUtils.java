@@ -18,6 +18,8 @@ public class FileUtils {
     }
 
     public static Double fileSize(File file) {
+        System.out.println("fileSize");
+        System.out.println(file.length());
         return (double) file.length() / 1024;
     }
 
@@ -41,4 +43,6 @@ public class FileUtils {
         File file = new File("src/main/resources/files/" + owner + "/" + filename);
         return file.delete();
     }
+
+
 }
